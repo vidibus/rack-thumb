@@ -153,9 +153,9 @@ module Rack
     def get_source_image
       env = @env.merge('PATH_INFO' => @source)
       status, headers, body = @app.call(env)
-
+      content_type = headers["content-type"] || headers["Content-Type"]
       unless (status >= 200 && status < 300) &&
-          (headers["Content-Type"].split("/").first == "image")
+          (content_type.split("/").first == "image")
         throw :halt, [status, headers, body]
       end
 
